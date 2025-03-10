@@ -1,0 +1,128 @@
+  <div class="Recipe">
+            {% if section.settings.collection_sorting %}
+              <div class="collection__sort">
+                {% render 'collection-sorting', collection: collection %}
+              </div>
+            {% endif %}    
+        <div class="Recipe1">
+            <h1>{{ section.settings.title }}</h1>
+            <p>{{ section.settings.desc }}</p>
+        </div>
+        <div class="RecipeTab padding">
+            <div class="RecipeTabA" id="myTab" role="tablist">
+                <ul class="nav">
+                  <li><a class="active" data-toggle="tab" href="#home">{{ section.settings.title1 }}
+                    </a></li>
+                  {% for block in section.blocks %}
+                    {% if block.settings.blog.articles_count > 0 %}
+                    <li><a  data-toggle="tab" href="#id{{ forloop.index }}">{{ block.settings.title }}
+<!--                     ({{ block.settings.blog.articles.size }}) -->
+                    </a></li>
+                  {% endif %}
+                  {% endfor %}
+                </ul>
+            </div>
+            <div class="RecipeTabB tab-content" id="nav-tabContent">
+               <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="nav-Prod-tab">
+                {% for block in section.blocks %}
+                 <div class="RecipeTabB1 recipe_tab_title">
+                  {% if block.settings.blog.articles_count > 0 %}
+                      <div class="recipe_tab_title">
+                        <h2>{{ block.settings.title }}</h2>
+                      </div>
+                    {% endif %}
+                        <div class="RecipeGrid">
+                          {% for article in blogs[block.settings.blog].articles %}
+                            <a href="{{ article.url }}">
+                            <div class="RecipeItem">
+                                <div class="RecipeImg">
+                                    <img src="{{ article.image | img_url : '' }}" alt="">
+                                </div>
+                                <div class="RecipeDesc">
+                                    <p class="grid__title">{{ article.title }}</p>
+                                </div>
+                            </div>
+                              </a>
+                           {% endfor %}
+
+                        </div>
+                    </div>
+                 {% endfor %}
+                </div>
+               {% for block in section.blocks %}
+                <div class="tab-pane fade " id="id{{ forloop.index }}" role="tabpanel" aria-labelledby="nav-Prod-tab">
+                    <div class="RecipeTabB1">
+                        <div class="mob-show">
+                        <h2>{{ block.settings.title }}</h2>
+                      </div>
+                        <div class="RecipeGrid">
+                          {% for article in blogs[block.settings.blog].articles %}
+                            <a href="{{ article.url }}">
+                            <div class="RecipeItem">
+                                <div class="RecipeImg">
+                                    <img src="{{ article.image | img_url : '' }}" alt="">
+                                </div>
+                                <div class="RecipeDesc">
+                                    <p class="grid__title">{{ article.title }}</p>
+                                </div>
+                            </div>
+                              </a>
+                           {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+{% schema %}
+  {
+    "name": "Recipe",
+    "settings": [
+       {
+          "type": "text",
+          "id": "title",
+          "label": "Page Title"
+        },
+           {
+          "type": "textarea",
+          "id": "desc",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "title1",
+          "label": "All Recipe tab Title",
+          "default": "All Recipes"
+        }
+    ],
+    "blocks": [
+    {
+      "type": "blog",
+      "name": "Blog",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Blog Title"
+        },
+           {
+          "type": "blog",
+          "id": "blog",
+          "label": "Select Blog"
+        }
+        
+      ]
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
