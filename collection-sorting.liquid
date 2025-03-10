@@ -1,0 +1,27 @@
+<div class="popout--navbar">
+  <h2 class="visually-hidden" id="sort-heading">
+    {{ 'collections.general.sort' | t }}
+  </h2>
+  <div class="popout" data-popout>
+    <button type="button"
+      class="popout__toggle"
+      aria-expanded="false"
+      aria-controls="sort-list"
+      aria-describedby="sort-heading"
+      data-popout-toggle>
+      {% assign sort_translation = 'collections.general.sort' | t %}
+      {{ sort_translation }}
+      {%- render 'icon-sort' -%}
+    </button>
+    <ul id="sort-list" class="popout-list" data-popout-list>
+      <!-- Loop through custom collections -->
+      {% for collection in collections %}
+        <li class="popout-list__item">
+          <a class="popout-list__option" href="{{ collection.url }}">
+            <span>{{ collection.title }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
