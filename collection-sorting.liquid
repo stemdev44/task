@@ -1,3 +1,5 @@
+<!-- /snippets/collection-sorting.liquid -->
+
 <div class="popout--navbar">
   <h2 class="visually-hidden" id="sort-heading">
     {{ 'collections.general.sort' | t }}
@@ -10,18 +12,26 @@
       aria-describedby="sort-heading"
       data-popout-toggle>
       {% assign sort_translation = 'collections.general.sort' | t %}
-      {{ sort_translation }}
+      {% assign currently_selected = collection.sort_options | where: "value", collection.sort_by | first %}
+      {{ currently_selected.name | default: sort_translation }}
       {%- render 'icon-sort' -%}
     </button>
     <ul id="sort-list" class="popout-list" data-popout-list>
-      <!-- Loop through custom collections -->
-      {% for collection in collections %}
-        <li class="popout-list__item">
-          <a class="popout-list__option" href="{{ collection.url }}">
-            <span>{{ collection.title }}</span>
+      {% for option in collection.sort_options %}
+        {% assign active = false %}
+        {%- if collection.sort_by.name contains option.name -%}
+          {% assign active = true %}
+        {%- endif -%}
+        <li class="popout-list__item {% if active %}popout-list__item--current{% endif %}">
+          <a class="popout-list__option"
+            data-value="{{ option.value }}"
+            href="#"
+            {% if active  %}aria-current="true"{% endif %}
+            data-sort-link>
+            <span>{{ option.name }}</span>
           </a>
         </li>
-      {% endfor %}
+      {%- endfor -%}
     </ul>
   </div>
 </div>
