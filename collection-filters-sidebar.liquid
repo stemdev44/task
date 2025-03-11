@@ -1,0 +1,80 @@
+<!-- /snippets/collection-filters-sidebar.liquid -->
+{% comment %}
+  The collection sidebar containing tag filtering and link-based navigation
+{% endcomment %}
+
+{% unless section.settings.collection_custom_nav_list == blank or section.settings.collection_custom_nav_list.empty? %}
+  {% assign custom_nav_list = section.settings.collection_custom_nav_list | handleize %}
+  <p class="sidebar__heading">{{ linklists[custom_nav_list].title }}</p>
+  <div class="collection-nav accessibleNav">
+    {% for link in linklists[custom_nav_list].links %}
+      {% if link.links == blank %}
+        <div class="sidebar__item {% if link.active %} sidebar__item--active{% endif %}">
+          <a href="{{ link.url }}">{{ link.title }}</a>
+          {% render 'icon-box' %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% for link in linklists[custom_nav_list].links %}
+    {% if link.links != blank %}
+    <p class="sidebar__heading">{{ link.title }}</p>
+    <div class="collection-nav">
+      {% for childlink in link.links %}
+        <div class="sidebar__item{% if childlink.active %} sidebar__item--active{% endif %}">
+          <a href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
+          {% render 'icon-box' %}
+        </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endfor %}
+{% endunless %}
+
+{% if section.settings.collection_standard_nav %}
+  {% if collections.size > 1 %}
+    <p class="sidebar__heading">{{ 'collections.sidebar.collections' | t }}</p>
+    <ul class="collection-nav">
+      <li class="sidebar__item{% unless collection.id %} sidebar__item--active{% endunless %}">
+        <a href="{{ routes.all_products_collection_url }}">
+          {{ 'collections.sidebar.all_collections' | t }}
+        </a>
+        {% render 'icon-box' %}
+      </li>
+      {% for collection_link in collections %}
+        {% unless collection_link.handle == 'frontpage' %}
+          <li class="sidebar__item{% if collection.handle == collection_link.handle %} sidebar__item--active{% endif %}">
+            <a href="{{ routes.collections_url }}/{{ collection_link.handle }}">{{ collection_link.title }}</a>
+            {% render 'icon-box' %}
+          </li>
+        {% endunless %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endif %}
+
+{%- assign collection_handle = 'all' -%}
+{%- if collection.handle -%}
+  {%- assign collection_handle = collection.handle -%}
+{%- endif -%}
+
+{% comment %}
+  Recipe Categories from Section Blocks
+{% endcomment %}
+{% if section.blocks.size > 0 %}
+  <p class="sidebar__heading">Recipe Categories</p>
+  <ul class="collection-nav">
+    <li class="sidebar__item sidebar__item--active">
+      <a href="#all">All Recipes</a>
+      {% render 'icon-box' %}
+    </li>    
+    {% for block in section.blocks %}
+      {% if block.settings.blog.articles_count > 0 %}
+        <li class="sidebar__item">
+          <a href="#id{{ forloop.index }}">{{ block.settings.title }}</a>
+          {% render 'icon-box' %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{% endif %}
