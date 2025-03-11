@@ -1,4 +1,4 @@
-<!-- /sections/recipe.liquid -->
+<!-- /sections/collection.liquid -->
 
 {% capture default_show_filters %}{%- unless section.settings.hide_sidebar -%}filters--default-visible{%- endunless -%}{% endcapture %}
 
@@ -56,13 +56,12 @@
       </div>
 
       {%- assign collection_sidebar = false -%}
-      {%- if section.blocks != blank  -%}
+      {%- if section.settings.collection_custom_nav_list != blank or section.settings.collection_standard_nav or section.settings.collection_tag_nav -%}
         {%- assign collection_sidebar = true -%}
       {%- endif -%}
 
       {% if collection_sidebar or section.settings.collection_sorting or section.settings.enable_layout_toggle %}
         <nav class="collection__nav">
-
           <div class="collection__nav__buttons">
             {% if collection_sidebar %}
               {% capture current_tags_indicator %}
@@ -107,37 +106,32 @@
         </aside>
         {% endif %}
 
-
+        {%- paginate collection.products by section.settings.product_limit -%}
           <div class="collection__products">
-            <div class="js-grid" data-grid-large=3 data-grid-small="{{ section.settings.grid_setting_small }}">
+            <div class="js-grid" data-grid-large="{{ section.settings.grid_setting_large }}" data-grid-small="{{ section.settings.grid_setting_small }}">
               <!-- /snippets/product-grid-item.liquid -->
-                 {% for block in section.blocks %}
-                  <div class="RecipeTabB1 recipe_tab_title" id="id{{ forloop.index }}">
-                    {% if block.settings.blog.articles_count > 0 %}
-                      <div class="recipe_tab_title">
-                        <h2>{{ block.settings.title }}</h2>
-                      </div>
-                    {% endif %}
-                    <div class="RecipeGrid">
-                      {% for article in blogs[block.settings.blog].articles %}
-                        <a href="{{ article.url }}">
-                          <div class="RecipeItem">
-                            <div class="RecipeImg">
-                              <img src="{{ article.image | img_url : '' }}" alt="">
-                            </div>
-                            <div class="RecipeDesc">
-                              <p class="grid__title">{{ article.title }}</p>
-                            </div>
-                          </div>
-                        </a>
-                      {% endfor %}
-                    </div>
-                  </div>
-                {% endfor %}
+
+              {% for product in collection.products %}
+              <div>
+                {% render 'product-grid-item', product: product %}
+                </div>
+              {% else %}
+                {% if collection.handle == 'all' and collection.current_tags == '' %}
+                  {% render 'onboarding-empty-collection' %}
+                {% else %}
+                <div class="js-grid__full-row">
+                  <p>{{ 'collections.general.no_matches' | t }}</p>
+                </div>
+                {% endif %}
+              {% endfor %}
             </div>
-
+            {% if paginate.pages > 1 %}
+              <div class="text-center">
+                {% render 'pagination-custom', paginate: paginate %}
+              </div>
+            {% endif %}
           </div>
-
+        {% endpaginate %}
       </div>
     </div>
   </div>
@@ -145,7 +139,7 @@
 
 {% schema %}
 {
-  "name": "Recipe",
+  "name": "Collection page",
   "settings": [
     {
       "type": "header",
@@ -323,68 +317,25 @@
     ],
     "blocks": [
     {
-        "type": "blog",
-        "name": "Blog",
-        "settings": [
-            {
-                "type": "text",
-                "id": "title",
-                "label": "Blog Title"
-            },
-                 {
-                "type": "blog",
-                "id": "blog",
-                "label": "Select Blog"
-            }
-            
-        ]
+      "type": "tag_group",
+      "name": "Tag grouping",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Group name",
+          "default": "Filter by size"
+        },
+        {
+          "type": "text",
+          "id": "group_tags",
+          "label": "Tag list",
+          "default": "Small, Medium, Large",
+          "info": "Comma separated group of tags"
+        }
+      ]
     }
   ]
 }
 
 {% endschema %}
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const filterLinks = document.querySelectorAll(".collection-nav .sidebar__item a");
-    const recipeTabs = document.querySelectorAll(".RecipeTabB1");
-
-    filterLinks.forEach((link) => {
-      link.addEventListener("click", function (event) {
-        event.preventDefault();
-
-        // Remove active class from all links
-        filterLinks.forEach((el) => el.parentElement.classList.remove("sidebar__item--active"));
-
-        // Add active class to clicked link
-        this.parentElement.classList.add("sidebar__item--active");
-
-        // Get the target ID from the href
-        const targetId = this.getAttribute("href").replace("#", "");
-
-        if (targetId === "all") {
-          // Show all categories if "All" is clicked
-          recipeTabs.forEach((tab) => {
-            tab.style.display = "block";
-          });
-        } else {
-          // Hide all categories
-          recipeTabs.forEach((tab) => {
-            tab.style.display = "none";
-          });
-
-          // Show the selected category
-          const selectedTab = document.getElementById(targetId);
-          if (selectedTab) {
-            selectedTab.style.display = "block";
-          }
-        }
-      });
-    });
-
-    // Show all categories by default
-    recipeTabs.forEach((tab) => {
-      tab.style.display = "block";
-    });
-  });
-</script>

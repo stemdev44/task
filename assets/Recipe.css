@@ -1,0 +1,255 @@
+.Recipe {
+    font-size: 18px;
+  max-width:1116px;
+  margin:0 auto;
+  padding: 0 32px;
+}
+.recipe_tab_title{
+  margin-top: 40px;
+  text-align: center;
+}
+#shopify-section-recipeDetails{
+ max-width:1116px;
+  margin: 0 auto;
+  padding: 40px 32px;
+}
+ .mob-show{
+    display: none;
+  }
+.Recipe1 {
+    text-align: center;
+}
+
+.RecipeTab {
+    padding-top: 30px;
+}
+
+.RecipeTabA ul {
+    justify-content: center;
+    gap: 30px;
+}
+
+
+.RecipeTabA a {
+    color: lightgray;
+    font-size: 18px;
+  text-transform:capitalize;
+}
+
+.RecipeTabA .active {
+    color: black;
+    text-decoration: none;
+}
+
+.RecipeTabB {
+    padding: 60px 0px;
+  display: block;
+  border:none;
+  
+}
+
+.RecipeGrid {
+    display: grid;
+    grid-template-columns: 24.5% 24.5% 24.5% 24.5%;
+    gap: 2%;
+}
+
+.RecipeImg {
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.RecipeImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.RecipeDesc {
+    margin-top: 10px;
+}
+
+.RecipeDesc p {
+    text-align:center;
+    text-transform: uppercase;
+    font-size: 18px;
+}
+
+@media screen and (max-width: 767px){
+  .RecipeDesc p {
+    font-size: 16px;
+}
+}
+
+.RecipeItem {
+    cursor: pointer;
+}
+
+.RecipeImg:hover img {
+    transform: scale(1.1);
+    transition: 0.8s;
+}
+
+
+/*----------------- RECIPE DETAILS ---------------------*/
+
+.RecipeDetailSec1 {
+    text-align: center;
+}
+
+.RecipeDetailSec1B {
+/*     padding-top: 60px; */
+    display: grid;
+    grid-template-columns: 49% 49%;
+    gap: 2%;
+}
+
+.RecipeDetailSec2 {
+    padding-top: 30px;
+    font-size: 18px;
+}
+
+.RecipeIngredients ul {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.RecipeIngredients li:before {
+    content: "";
+    color: black;
+    font-weight: 700;
+    display: inline-block;
+    margin-left: -1em;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border: 3px solid;
+    margin-bottom: 4px;
+    margin-right: 12px;
+}
+
+.RecipeInstructions {
+    margin-top: 40px;
+}
+
+.RecipeInstructions p {
+    margin-bottom: 10px;
+}
+
+.RecipeInstructions ul {
+    list-style: none;
+    padding: 0;
+}
+
+.RecipeInstructions li {
+    margin-bottom: 20px;
+}
+
+.RecipeDetailSec3 {
+    padding-top: 30px;
+}
+
+.RDSec3Left,
+.RDSec3Right {
+    position: absolute;
+    top: calc(50% - 35px);
+    z-index: 99;
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    padding: 17px;
+    border-radius: 50%;
+    box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.75);
+    cursor: pointer;
+}
+
+.RDSec3Left {
+    left: -25px;
+}
+
+.RDSec3Right {
+    right: -25px;
+}
+
+.IngredientsSlider .slick-slide {
+    margin: 0 10px;
+}
+
+.IngredientsSlider .slick-list {
+    margin: 0 -10px;
+}
+.IngredientsSlider  .RecipeImg {
+  height: auto;
+}
+
+.RecipeDetailSec3 h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+@media screen  and (max-width: 1024px){
+  .RecipeGrid {
+    display: grid;
+    grid-template-columns: 48% 48%;
+    gap: 4%;
+}
+}
+@media screen  and (max-width: 768px){
+  .Recipe, #shopify-section-recipeDetails {
+    padding-left:16px;
+    padding-right:16px;
+  }
+  .IngredientsSlider {
+    padding-left:40px;
+    padding-right:40px;
+  }
+    
+    .RDSec3Left, .RDSec3Right {
+    
+        width: 50px;
+        height: 50px;
+        padding: 16px;
+    }.RDSec3Right {
+    right: 11px;
+}.RDSec3Left {
+    left: 11px;
+}  .RecipeDetailSec1B {
+    grid-template-columns: 100%;
+}
+}
+@media screen  and (max-width: 600px){
+  .mob-show{
+    display: block;
+    text-align: center;
+  }
+  .RecipeTabA ul{
+    justify-content: unset;
+    flex-wrap: nowrap;
+    overflow: auto;
+  }
+.RecipeTabA li{
+  white-space: nowrap;
+}
+    .RecipeTabA ul::-webkit-scrollbar {
+    height: 3px;
+}
+/* Track */
+  .RecipeTabA ul::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+/* Handle */
+  .RecipeTabA ul::-webkit-scrollbar-thumb {
+    background: #888;
+}
+/* Handle on hover */
+  .RecipeTabA ul::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+  .RecipeGrid {
+    display: grid;
+    grid-template-columns: 100%;
+    gap: 30px;
+}
+}

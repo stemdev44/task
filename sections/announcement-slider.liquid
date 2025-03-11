@@ -1,0 +1,42 @@
+<div class="ann_slider">
+  {% for block in section.blocks %}
+    <p>{{block.settings.txt}}</p>
+  {%endfor%}
+</div>
+
+{% schema %}
+  {
+    "name": "Announcement Slider",
+    "settings": [],
+    "blocks":[
+                  {
+                    "type":"AnnouncementItem",
+                    "name":"Announcement Item",
+                    "settings":[
+                                {
+                                  "type":"textarea",
+                                  "id":"txt",
+                                  "label":"Announcement Text"
+                                }
+                               
+                               ]
+                  }
+                ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+
+<script>
+  $('.ann_slider').slick({
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 2000,
+    speed: 2000
+});
+</script>

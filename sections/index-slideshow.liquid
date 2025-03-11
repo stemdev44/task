@@ -1,0 +1,303 @@
+{% comment %} <div class="homepage-slideshow {{ section.settings.color }}" data-section-id="{{ section.id }}" data-section-type="slideshow">
+  {% if section.blocks.size > 0 %}
+    <div class="slick-wrapper" id="slideshow-{{ section.id }}"
+      data-autoplay="{{ section.settings.autoplay }}"
+      data-speed="{{ section.settings.autoplay_speed | times: 1000 }}">
+      {% for block in section.blocks %}
+        <div class="slick-slide slideshow__slide slideshow__slide--{{ block.id }} preventOverflow section--image"
+          data-overlay-header
+          {{ block.shopify_attributes }}>
+          <div class="flex-absolute {{ block.settings.text_align }}">
+            <div class="wrapper preventOverflowContent">
+              {% unless block.settings.title == '' %}
+                <h1 class="title--overlay h2">{{ block.settings.title | escape }}</h1>
+              {% endunless %}
+              {% unless block.settings.description == '' %}
+                <p class="content--overlay h5--body">{{ block.settings.description }}</p>
+              {% endunless %}
+              {% unless block.settings.link_text == '' %}
+                <a class="{{ block.settings.button_style }} cta--overlay btn--large uppercase" href="{{ block.settings.link }}">{{ block.settings.link_text | escape }}</a>
+              {% endunless %}
+            </div>
+          </div>
+          <div class="image-overlay image-overlay-{{ block.settings.overlay_opacity }}"></div>
+
+          {% render 'hero', img_object: block.settings.image, frame_height_class: section.settings.height %}
+
+          {% if block.settings.link_text == '' and block.settings.link %}
+            <a class="link-over-image" href="{{ section.settings.link }}" aria-label="{{ block.settings.title }}"></a>
+          {% endif %}
+
+          {% if section.settings.height == 'use_screen_full' %}
+            <div class="scroll_icon_wrap">
+              <button data-scroll-down class="scroll_link bloop" aria-label="{{ 'general.accessibility.scroll' | t }}">
+                <span class="scroll_icon">{% render 'icon-scroll-down' %}</span>
+              </button>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="slideshow__arrow slideshow__arrow--prev" data-prev-arrow>{% render 'icon-arrow-left' %}</div>
+  <div class="slideshow__arrow slideshow__arrow--next" data-next-arrow>{% render 'icon-arrow-right' %}</div>
+
+  {% if section.blocks.size == 0 %}
+    <div class="slideshow__slide">
+      <div class="text-center vertical-align">{{ 'home_page.onboarding.no_content' | t }}</div>
+      <div class="image-overlay section--dark image-overlay-15"></div>
+    </div>
+  {% endif %}
+
+</div> {% endcomment %}
+
+
+
+{% if section.settings.slider_type == "slider1" %}
+  
+<div class="HomeSec1">
+    <div class="HomeSlider">
+   {% for block in section.blocks %}
+        <div class="HomeSliderItem">
+            <div class="HomeSec1L " style="background-color:{{ block.settings.color }}">
+                <p>{{ block.settings.description1 }}</p>
+                <h1>{{ block.settings.title }}</h1>
+                <p>{{ block.settings.description2 }}</p>
+                <button class=""><a href="{{ block.settings.btnUrl }}">{{ block.settings.btnText }}</a></button></div>
+            <div class="HomeSec1R">
+                <img src="{{ block.settings.image |img_url: '' }}" alt="">
+            </div>
+        </div>
+     {% endfor %}
+    </div>
+
+</div>
+
+  {% else %}
+
+<div class="slider2_home_container desk_slider">
+  {% for block in section.blocks %}
+    <div class="slider2_home_slide" style="background: url({{ block.settings.image |img_url: '' }}); background-size: cover; background-repeat: no-repeat; background-position: center;">
+      <p>{{ block.settings.description1 }}</p>
+      <h1>{{ block.settings.title }}</h1>
+      <p>{{ block.settings.description2 }}</p>
+      <button class=""><a href="{{ block.settings.btnUrl }}">{{ block.settings.btnText }}</a></button>
+    </div>
+  {% endfor %}
+</div>
+  <div class="slider2_home_container mob_slider">
+  {% for block in section.blocks %}
+    <div class="slider2_home_slide" style="background: url({{ block.settings.image1 |img_url: '' }}); background-size: cover; background-repeat: no-repeat; background-position: center;">
+      <p>{{ block.settings.description1 }}</p>
+      <h1>{{ block.settings.title }}</h1>
+      <p>{{ block.settings.description2 }}</p>
+      <button class=""><a href="{{ block.settings.btnUrl }}">{{ block.settings.btnText }}</a></button>
+    </div>
+  {% endfor %}
+</div>
+
+  {% endif %}
+
+<style>
+.mob_slider{
+  display: none;
+}
+  .slider2_home_container{
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  .slider2_home_slide{
+    min-height: 100vh;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+  }
+  
+  .HomeSec1{
+    overflow:hidden;
+  }
+  .HomeSliderItem {
+    display:flex !important;
+  }
+  .HomeSec1L{
+    flex:0 0 450px;
+    padding: 50px 20px 50px 40px;
+    color:white;
+    background-color:#B5AA9B;
+        display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .HomeSec1R{
+    flex: 0 0 calc(100% - 450px);
+  }
+  .HomeSec1R img{
+    width:100%;
+  }
+  .HomeSec1L h1{
+        line-height: 30px;
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+  .HomeSec1L p{
+    margin-bottom:10px;
+    margin-top:0;
+  }
+
+  .slider2_home_container h1{
+    margin-bottom: 0px;
+  }
+
+  .slider2_home_container p{
+    margin-bottom: 5px;
+  }
+
+  .slider2_home_container button{
+    margin-top: 15px;
+  }
+  
+  .HomeSec1L button, .slider2_home_container button{
+    color:white;
+    background-color:#8A6B52;
+    text-transform:uppercase;
+    width: fit-content;
+    padding:10px 20px;
+    border: 1px solid transparent;
+        transition: background-color .5s cubic-bezier(.215,.61,.355,1);
+    border-radius: var(---button-radius);
+  }
+  
+  .HomeSec1L p:first-of-type, .HomeSec1L h1{
+    text-transform:uppercase;
+  }
+  .HomeSec1L button:hover {
+    background-color: var(--btn-bg-hover);
+    color: var(--btn-text);
+    background-color: #8A6B52;
+    border: 1px #8A6B52;
+}
+@media screen and (max-width:1024px) {
+.HomeSec1L {
+    padding: 150px 20px 30px 40px !important;
+  flex: 0 0 360px;
+}
+  .HomeSec1R{
+    flex: 0 0 calc(100% - 360px);
+  }.HomeSec1L p ,.HomeSec1L button{
+    font-size:14px;
+}.HomeSec1L h1 {
+    font-size: 20px;
+}
+}
+  @media screen and (max-width:768px) {
+    .HomeSliderItem {
+    flex-direction: column-reverse;
+
+    text-align: center;
+}.HomeSec1L {
+    padding: 30px 20px 30px 40px !important;
+}
+    .HomeSec1L button {
+    margin-left: auto;
+      margin-right:auto;
+}
+    .HomeSec1L,.HomeSec1R{
+      flex:100%;
+    }
+    .HomeSec1L button{
+          padding: 10px 20px;
+    }
+  }
+  @media screen and (max-width:652px) {
+  .desk_slider{
+    display: none;
+  }
+    .mob_slider{
+  display: block;
+}
+  }
+</style>
+{% schema %}
+{
+  "name": "Slideshow",
+  "settings": [
+              {
+            "type": "radio",
+            "id": "slider_type",
+            "label": "Slider Type",
+            "options": [
+              {
+                "value": "slider1",
+                "label": "Text On Left"
+              },
+              {
+                "value": "slider2",
+                "label": "Text in Center"
+              }
+            ],
+            "default": "slider1"
+          }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Backgound Color"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Desktop Image",
+          "info": "Match size to other slides"
+        },
+        {
+          "type": "image_picker",
+          "id": "image1",
+          "label": "Mobile Image",
+          "info": "Match size to other slides"
+        },
+         {
+          "type": "text",
+          "id": "description1",
+          "label": "Top Text"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "description2",
+          "label": "Subheading"
+        },   {
+          "type": "text",
+          "id": "btnText",
+          "label": "Button Text"
+        }, {
+          "type": "url",
+          "id": "btnUrl",
+          "label": "Button Link"
+        }
+        
+      ]
+    }
+  ],
+ "presets": [
+                  {
+                  "name": "Slideshow",
+                  "category": "Slide"
+                  }
+                ]
+}
+{% endschema %}
+

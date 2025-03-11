@@ -1,0 +1,58 @@
+ <div class="HomeSec14 padding">
+            <div class="HomeSec14a">
+                <h1>{{ section.settings.title }}</h1>
+                <p>{{ section.settings.descrption1 }}</p>
+                   <p> {{ section.settings.descrption2 }}</p>
+<!--                 <div class="HomeSec14Input">
+                    <input type="text" placeholder="EMAIL ADDRESS">
+                    <button>{{ section.settings.btnText }}</button>
+                </div> -->
+
+              {% if request.path contains 'fr' %}
+                <div class="klaviyo-form-Sj4wxA"></div>
+                {% else %}
+              <div class="klaviyo-form-RFWYJh"></div>
+              {% endif %}
+            </div>
+        </div>
+        
+        {% schema %}
+  {
+    "name": "Join US",
+    "settings": [
+     {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+         {
+          "type": "text",
+          "id": "descrption1",
+          "label": "Description 1"
+        },
+           {
+          "type": "text",
+          "id": "descrption2",
+          "label": "Description 2"
+        },
+         {
+          "type": "text",
+          "id": "btnText",
+          "label": "Button Text"
+        }
+    
+    ],
+    "presets": [
+                  {
+                  "name": "Join Us",
+                  "category": "custom"
+                  }
+                ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

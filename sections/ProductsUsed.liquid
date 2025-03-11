@@ -1,0 +1,40 @@
+<div class="ProductsUsed">
+  {%  for block in section.blocks %}
+    {%  assign product = all_products[block.settings.prod] %}
+    <div class="ProdItem">
+        <div class="ProdImg">
+            <img src="{{ product.featured_image | img_url:'' }}" alt="">
+        </div>
+        <div class="ProdDesc">
+            <p>{{ product.title }}</p>
+        </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+  {
+    "name": "Products Used",
+    "settings": [
+
+    
+    ],
+     "blocks": [
+    {
+      "type": "Product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "prod",
+          "label": "Select Product"
+        }]
+        }]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
