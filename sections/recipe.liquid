@@ -1,59 +1,17 @@
 <!-- /sections/recipe.liquid -->
 
-{% capture default_show_filters %}{%- unless section.settings.hide_sidebar -%}filters--default-visible{%- endunless -%}{% endcapture %}
+{% capture default_show_filters %}
+  {%- unless section.settings.hide_sidebar -%}
+    filters--default-visible
+  {%- endunless -%}
+{% endcapture %}
 
 <div data-section-id="{{ section.id }}"
   data-section-type="collection"
   data-sort="{{ section.settings.collection_sorting }}">
 
-  {% if collection.image and section.settings.show_image %}
-    <div class="section--image fade-in-child preventOverflow {{ section.settings.color }}" data-overlay-header>
-      <div class="flex-absolute {{ section.settings.text_align }}">
-        <div class="wrapper preventOverflowContent">
-          {%- if section.settings.show_title and section.settings.show_title_below == false  -%}
-            <h1 class="title--overlay h2">
-              {{ collection.title }}
-            </h1>
-          {%- endif -%}
-          {% if collection.description.size > 0 and section.settings.show_description and section.settings.show_description_below == false %}
-            <div class="rte">
-              {{ collection.description }}
-            </div>
-          {% endif %}
-        </div>
-      </div>
-      <div class="image-overlay image-overlay-{{ section.settings.overlay_opacity }}"></div>
-      {% render 'hero', img_object: collection.image, frame_height_class: section.settings.image_height %}
-      <noscript>
-        <img src="{{ collection.image | img_url: '1440x' }}" alt="{{ collection.image.alt | default: collection.title }}" class="responsive-wide-image"/>
-      </noscript>
-    </div>
-  {% endif %}
-
   <div class="collection" data-sidebar-toggle>
     <div class="wrapper">
-      <div class="collection__heading--below {{ section.settings.text_align }}">
-        {%- if collection.image == nil or section.settings.show_title_below or section.settings.show_image == false -%}
-          {%- if section.settings.show_title -%}
-            <div class="title_container">
-              {% if collection.metafields.custom.collection_icon != blank  %}
-              <div class="title_image">
-               <img src="{{ collection.metafields.custom.collection_icon | img_url:'' }}">
-              </div>
-                {% endif %}
-            <h1 class="collection__heading--below h3 title--overlay">{{ collection.title }}</h1>
-             
-            </div>
-          {%- endif -%}
-        {%- endif -%}
-        {%- if collection.image == nil or section.settings.show_description_below or section.settings.show_image == false -%}
-          {%- if section.settings.show_description and collection.description.size > 0 -%}
-            <div class="collection__heading--below rte">
-              {{ collection.description }}
-            </div>
-          {%- endif -%}
-        {%- endif -%}
-      </div>
 
       {%- assign collection_sidebar = false -%}
       {%- if section.blocks != blank  -%}
@@ -84,7 +42,7 @@
             {% endif %}
           </div>
           {% if section.settings.enable_layout_toggle %}
-            <div class="collection__layout">
+            <div class="collection__layout" style="display:none">
               <span data-toggle-grid="1">{% render 'icon-grid-1' %}</span>
               <span data-toggle-grid="2">{% render 'icon-grid-2' %}</span>
               <span data-toggle-grid="3">{% render 'icon-grid-3' %}</span>
@@ -111,6 +69,7 @@
           <div class="collection__products">
             <div >
               <!-- /snippets/product-grid-item.liquid -->
+             
                  {% for block in section.blocks %}
                   <div class="RecipeTabB1 recipe_tab_title" id="id{{ forloop.index }}">
                     <!-- {% if block.settings.blog.articles_count > 0 %}
