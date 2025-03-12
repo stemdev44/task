@@ -304,18 +304,40 @@
 {% endschema %}
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
   const filterLinks = document.querySelectorAll(".collection-nav .sidebar__item a");
   const recipeTabs = document.querySelectorAll(".RecipeTabB1");
-  const sidebarToggle = document.querySelector(".filters__close");
   const sidebarWrapper = document.querySelector(".collection__filters__wrapper");
+  const sidebarToggle = document.querySelector(".filters__close");
 
-  filterLinks.forEach((link) => {
+  function redistributeGridItems() {
+    let allItems = [];
+    const grids = document.querySelectorAll(".RecipeGrid");
+
+    // Collect all <a> elements from all RecipeGrid divs
+    grids.forEach(grid => {
+      const items = Array.from(grid.querySelectorAll("a"));
+      allItems = allItems.concat(items);
+      grid.innerHTML = ""; // Clear the grid
+    });
+
+    // Distribute items evenly with 3 per row
+    grids.forEach(grid => {
+      for (let i = 0; i < 3; i++) {
+        if (allItems.length > 0) {
+          grid.appendChild(allItems.shift()); // Move items to fill empty spaces
+        }
+      }
+    });
+  }
+
+  // Handle filter clicks
+  filterLinks.forEach(link => {
     link.addEventListener("click", function (event) {
       event.preventDefault();
 
       // Remove active class from all links
-      filterLinks.forEach((el) => el.parentElement.classList.remove("sidebar__item--active"));
+      filterLinks.forEach(el => el.parentElement.classList.remove("sidebar__item--active"));
 
       // Add active class to clicked link
       this.parentElement.classList.add("sidebar__item--active");
@@ -325,14 +347,10 @@
 
       if (targetId === "all") {
         // Show all categories if "All" is clicked
-        recipeTabs.forEach((tab) => {
-          tab.style.display = "block";
-        });
+        recipeTabs.forEach(tab => tab.style.display = "block");
       } else {
         // Hide all categories
-        recipeTabs.forEach((tab) => {
-          tab.style.display = "none";
-        });
+        recipeTabs.forEach(tab => tab.style.display = "none");
 
         // Show the selected category
         const selectedTab = document.getElementById(targetId);
@@ -341,19 +359,18 @@
         }
       }
 
-      console.log(window.innerWidth)
-      // **Close sidebar on mobile**
-      //// click the on trigger .filters__close 
+      // Adjust items after filtering
+      setTimeout(redistributeGridItems, 100);
+      
+      // Close sidebar on mobile
       if (window.innerWidth <= 600) {
         sidebarToggle.click(); 
       }
     });
   });
 
-  // Show all categories by default
-  recipeTabs.forEach((tab) => {
-    tab.style.display = "block";
-  });
+  // Initial distribution of items
+  redistributeGridItems();
 });
 </script>
 
