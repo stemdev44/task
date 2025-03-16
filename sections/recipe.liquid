@@ -72,11 +72,11 @@
              
                  {% for block in section.blocks %}
                   <div class="RecipeTabB1 recipe_tab_title" id="id{{ forloop.index }}">
-                    <!-- {% if block.settings.blog.articles_count > 0 %}
-                      <div class="recipe_tab_title">
+                    {% if block.settings.blog.articles_count > 0 %}
+                      <!-- <div class="recipe_tab_title">
                         <h2>{{ block.settings.title }}</h2>
-                      </div>
-                    {% endif %} -->
+                      </div> -->
+                    {% endif %}
                     <div class="RecipeGrid js-grid" data-grid-large="3" data-grid-small="{{ section.settings.grid_setting_small }}" >
                       {% for article in blogs[block.settings.blog].articles %}
                         <a href="{{ article.url }}">
@@ -313,7 +313,6 @@ document.addEventListener("DOMContentLoaded", function () {
   function redistributeGridItems() {
     let allItems = [];
     const grids = document.querySelectorAll(".RecipeGrid");
-
     // Collect all <a> elements from all RecipeGrid divs
     grids.forEach(grid => {
       const items = Array.from(grid.querySelectorAll("a"));
@@ -360,7 +359,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Adjust items after filtering
-      setTimeout(redistributeGridItems, 100);
+      // setTimeout(redistributeGridItems, 100);
       
       // Close sidebar on mobile
       if (window.innerWidth <= 600) {
@@ -370,7 +369,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Initial distribution of items
-  redistributeGridItems();
+  // redistributeGridItems();
 });
 </script>
 
