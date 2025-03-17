@@ -93,11 +93,8 @@
                 {% endfor %}
             </div>
             <!-- /////// Show All Products in the below div When All Filter Selected -->
-            <div class="show-all-products" style="display:block;">
-              
-            </div>
-          </div>
-
+            <div class="show-all-products" style="display:block;"></div>
+            <div class="show-targeted-products"></div>
       </div>
     </div>
   </div>
@@ -354,43 +351,45 @@ document.addEventListener("DOMContentLoaded", function () {
   const filterLinks = document.querySelectorAll(".collection-nav .sidebar__item a");
   const recipeTabs = document.querySelectorAll(".RecipeTabB1");
   const sidebarToggle = document.querySelector(".filters__close");
+
   const showFilteredProducts = document.querySelector(".show-filtered-products");
   const showAllProducts = document.querySelector(".show-all-products");
+  const showTargetedProducts = document.querySelector(".show-targeted-products");
 
- function redistributeGridItems() {
-  let allItems = [];
-  const grids = document.querySelectorAll(".RecipeGrid");
+  function redistributeGridItems() {
+    let allItems = [];
+    const grids = document.querySelectorAll(".RecipeGrid");
 
-  // Collect all <a> elements from all RecipeGrid divs
-  grids.forEach(grid => {
-    const items = Array.from(grid.querySelectorAll("a"));
-    allItems = allItems.concat(items);
-  });
+    // Collect all <a> elements from all RecipeGrid divs
+    grids.forEach(grid => {
+      const items = Array.from(grid.querySelectorAll("a"));
+      allItems = allItems.concat(items);
+    });
 
-  // Clear the show-all-products container before appending new grids
-  showAllProducts.innerHTML = "";
+    // Clear the show-all-products container before appending new grids
+    showAllProducts.innerHTML = "";
 
-  // Create a new RecipeGrid and append it inside showAllProducts
-  let newGrid = document.createElement("div");
-  newGrid.className = "RecipeGrid js-grid";
-  newGrid.setAttribute("data-grid-large", "3");
+    // Create a new RecipeGrid and append it inside showAllProducts
+    let newGrid = document.createElement("div");
+    newGrid.className = "RecipeGrid js-grid";
+    newGrid.setAttribute("data-grid-large", "3");
 
-  allItems.forEach((item, index) => {
-    newGrid.appendChild(item.cloneNode(true)); // Append clone to avoid removing from filtered tabs
+    allItems.forEach((item, index) => {
+      newGrid.appendChild(item.cloneNode(true)); // Append clone to avoid removing from filtered tabs
 
-    // Create a new grid every 3 items (to ensure 3 per row)
-    if ((index + 1) % 3 === 0 || index === allItems.length - 1) {
-      showAllProducts.appendChild(newGrid);
+      // Create a new grid every 3 items (to ensure 3 per row)
+      if ((index + 1) % 3 === 0 || index === allItems.length - 1) {
+        showAllProducts.appendChild(newGrid);
 
-      // Create a new grid for the next set of items if needed
-      if (index < allItems.length - 1) {
-        newGrid = document.createElement("div");
-        newGrid.className = "RecipeGrid js-grid";
-        newGrid.setAttribute("data-grid-large", "3");
+        // Create a new grid for the next set of items if needed
+        if (index < allItems.length - 1) {
+          newGrid = document.createElement("div");
+          newGrid.className = "RecipeGrid js-grid";
+          newGrid.setAttribute("data-grid-large", "3");
+        }
       }
-    }
-  });
-}
+    });
+  }
 
   // Handle filter clicks
   filterLinks.forEach(link => {
@@ -406,38 +405,42 @@ document.addEventListener("DOMContentLoaded", function () {
       const targetId = this.getAttribute("href").replace("#", "");
 
       if (targetId === "all") {
-        // Show all products and hide filtered products        
+        // Show all products and hide targeted products        
         showFilteredProducts.style.display = "none";
+        showTargetedProducts.style.display = "none";
         showAllProducts.style.display = "block";
         showAllProducts.innerHTML = "";
         redistributeGridItems();
       } else {
-        // Show filtered products and hide all products
-        showFilteredProducts.style.display = "block";
+        // Show targeted products and hide all products
+        showFilteredProducts.style.display = "none";
         showAllProducts.style.display = "none";
+        showTargetedProducts.style.display = "block";
+        showTargetedProducts.innerHTML = ""; // Clear previous targeted content
 
-        // Hide all categories first
-        recipeTabs.forEach(tab => tab.style.display = "none");
-
-        // Show the selected category
+        // Find the selected category's content
         const selectedTab = document.getElementById(targetId);
         if (selectedTab) {
-          selectedTab.style.display = "block";
+          const selectedGrid = selectedTab.querySelector(".RecipeGrid");
+          if (selectedGrid) {
+            showTargetedProducts.appendChild(selectedGrid.cloneNode(true));
+          }
         }
       }
+
       // Close sidebar on mobile
       if (window.innerWidth <= 600) {
         sidebarToggle.click();
       }
     });
-    
   });
 
   // Initialize with all products displayed
   showFilteredProducts.style.display = "none";
+  // showTargetedProducts.style.display = "none";
   showAllProducts.style.display = "block";
   redistributeGridItems();
-}); 
+});
 </script>
 
 <style>
